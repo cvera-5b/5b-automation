@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    timeout-minutes: 60
+#    timeout-minutes: 60 # remove job timeout to avoid premature cancellation - 5 devices x 1 runners (e.g, Running 165 tests using 1 worker)
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
