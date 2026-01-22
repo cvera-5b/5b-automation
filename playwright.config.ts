@@ -72,7 +72,6 @@ const getStorageStateFile = (): string => {
   } else if (CACHED_BASE_URL.includes('staging')) {
     return 'storageState-staging.json';
   }
-
   return 'storageState-staging-ct.json'; // default
 };
 
@@ -117,17 +116,19 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'chrome-real',
-      use: {
-        browserName: 'chromium',
-        channel: 'chrome',
-      }
-    },
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+    // NOTE: Chromium and Chrome-Real disabled per MACH-9915
+    // Tested extensively in local development for months, and now verified in CI/CD pipeline (side/poc proj)
+    // {
+    //   name: 'chrome-real',
+    //   use: {
+    //     browserName: 'chromium',
+    //     channel: 'chrome',
+    //   }
+    // },
+    // {
+    //   name: 'chromium',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
 
     {
       name: 'firefox',
