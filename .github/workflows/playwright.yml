@@ -1,6 +1,15 @@
 name: Playwright Tests
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        required: true
+        default: 'stg'
+        type: choice
+        options:
+          - stg
+          - dev
 jobs:
   test:
 #    timeout-minutes: 60 # remove job timeout to avoid premature cancellation - 5 devices x 1 runners (e.g, Running 165 tests using 1 worker)
@@ -15,7 +24,12 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests (FF only)
-      run: npx playwright test --project=firefox
+      run: |
+        if [ "${{ github.event.inputs.environment }}" == "dev" ]; then
+          npx playwright test --project=firefox -- --base-url=dev-ct --fresh-session
+        else
+          npx playwright test --project=firefox
+        fi
       env:
         NETLIFY_PASSWORD: ${{ secrets.NETLIFY_PASSWORD }}
         TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
