@@ -26,7 +26,7 @@ jobs:
     - name: Run Playwright tests (FF only)
       run: |
         if [ "${{ github.event.inputs.environment }}" == "dev" ]; then
-          npx playwright test --project=firefox -- --base-url=dev-ct --fresh-session
+          npx playwright test tests --project=firefox -- --base-url=dev-ct --fresh-session
         else
           npx playwright test --project=firefox
         fi
