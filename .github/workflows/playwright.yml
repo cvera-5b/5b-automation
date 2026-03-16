@@ -1,4 +1,5 @@
 name: Playwright Tests
+
 on:
   workflow_dispatch:
     inputs:
@@ -10,10 +11,12 @@ on:
         options:
           - stg
           - dev
+
 jobs:
   test:
 #    timeout-minutes: 60 # remove job timeout to avoid premature cancellation - 5 devices x 1 runners (e.g, Running 165 tests using 1 worker)
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -21,8 +24,9 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      # Install ONLY Firefox (CI optimization)
+    - name: Install Playwright Firefox only
+      run: npx playwright install firefox --with-deps
     - name: Run Playwright tests (FF only)
       run: |
         if [ "${{ github.event.inputs.environment }}" == "dev" ]; then
